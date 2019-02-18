@@ -10,7 +10,7 @@ class Group(models.Model):
 
     def __str__(self):
         """Method that returns group instance as string."""
-        return f'Group {self.id} with name {self.name}'
+        return f'ID {self.id}, name {self.name}'
 
     def to_dict(self):
         """Method that returns dict with object's attributes."""

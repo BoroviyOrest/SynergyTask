@@ -13,7 +13,7 @@ class CustomUser(models.Model):
 
     def __str__(self):
         """Method that returns custom_user instance as string."""
-        return f'User {self.id} with {self.nickname}'
+        return f'ID {self.id}, nickname {self.nickname}'
 
     def to_dict(self):
         """Method that returns dict with object's attributes."""
