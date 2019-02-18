@@ -5,8 +5,8 @@ from django.db import models, OperationalError, transaction
 
 class Group(models.Model):
     """Model for Group entity."""
-    name = models.CharField()
-    description = models.CharField(default='', blank=True)
+    name = models.CharField(max_length=20)
+    description = models.CharField(max_length=256, default='', blank=True)
 
     def __str__(self):
         """Method that returns route instance as string."""
@@ -48,3 +48,21 @@ class Group(models.Model):
                 return False
 
         return True
+
+    @classmethod
+    def delete_by_id(cls, group_id):
+        """Delete group object, found by id."""
+        try:
+            group = cls.objects.get(id=group_id)
+            group.delete()
+            return True
+        except (cls.DoesNotExist, OperationalError) as err:
+            return False
+
+    @classmethod
+    def get_by_id(cls, group_id):
+        """Returns group instance by group_id."""
+        try:
+            return cls.objects.get(id=group_id)
+        except (cls.DoesNotExist, OperationalError):
+            return None

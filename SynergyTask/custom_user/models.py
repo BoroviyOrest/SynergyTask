@@ -7,9 +7,9 @@ from group.models import Group
 
 class CustomUser(models.Model):
     """Model for CustomUser entity."""
-    nickname = models.CharField()
+    nickname = models.CharField(max_length=20)
     created = models.DateTimeField(auto_now_add=True)
-    group = models.ForeignKey(Group, on_delete=models.PROTECT)
+    group = models.ForeignKey(Group, on_delete=models.PROTECT, null=True, related_name='groups')
 
     def __str__(self):
         """Method that returns route instance as string."""
@@ -20,7 +20,7 @@ class CustomUser(models.Model):
         return {
             'user_id': self.id,
             'nickname': self.nickname,
-            'group_id': self.group.id
+            'group_id': self.group_id
         }
 
     @classmethod
@@ -51,3 +51,25 @@ class CustomUser(models.Model):
                 return False
 
         return True
+
+    @classmethod
+    def delete_by_id(cls, user_id):
+        """Delete group object, found by id."""
+        try:
+            user = cls.objects.get(id=user_id)
+            user.delete()
+            return True
+        except (cls.DoesNotExist, OperationalError) as err:
+            return False
+
+    @classmethod
+    def get_by_id(cls, user_id):
+        """Returns custom user instance by user_id."""
+        try:
+            return cls.objects.get(id=user_id)
+        except (cls.DoesNotExist, OperationalError):
+            return None
+
+    @classmethod
+    def get_all_users(cls):
+        return cls.objects.all()
