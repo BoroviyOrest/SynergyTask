@@ -66,3 +66,7 @@ class Group(models.Model):
             return cls.objects.get(id=group_id)
         except (cls.DoesNotExist, OperationalError):
             return None
+
+    @classmethod
+    def get_all_groups(cls):
+        return cls.objects.all()

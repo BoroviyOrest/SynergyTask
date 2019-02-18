@@ -27,7 +27,7 @@ class CustomUserView(View):
         if not data:
             return HttpResponse('Empty body', status=400)
 
-        group = Group.get_group_by_id(group_id=data.get('group_id'))
+        group = Group.get_by_id(group_id=data.get('group_id'))
         user_info = {
             'nickname': data.get('nickname'),
             'group': group
@@ -48,11 +48,11 @@ class CustomUserView(View):
         if not user_id:
             return HttpResponse('User_id was not received', status=400)
 
-        user = CustomUser.get_user_by_id(user_id=user_id)
+        user = CustomUser.get_by_id(user_id=user_id)
         if not user:
             return HttpResponse('User was not found', status=400)
 
-        group = Group.get_group_by_id(group_id=data.get('group_id'))
+        group = Group.get_by_id(group_id=data.get('group_id'))
         user_info = {
             'nickname': data.get('nickname'),
             'group': group
