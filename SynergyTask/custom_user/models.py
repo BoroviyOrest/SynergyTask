@@ -12,8 +12,8 @@ class CustomUser(models.Model):
     group = models.ForeignKey(Group, on_delete=models.PROTECT, null=True, related_name='groups')
 
     def __str__(self):
-        """Method that returns route instance as string."""
-        return f'User with id {self.id} and nickname {self.nickname}'
+        """Method that returns custom_user instance as string."""
+        return f'User {self.id} with {self.nickname}'
 
     def to_dict(self):
         """Method that returns dict with object's attributes."""
@@ -54,12 +54,12 @@ class CustomUser(models.Model):
 
     @classmethod
     def delete_by_id(cls, user_id):
-        """Delete group object, found by id."""
+        """Delete user object, found by id."""
         try:
             user = cls.objects.get(id=user_id)
             user.delete()
             return True
-        except (cls.DoesNotExist, OperationalError) as err:
+        except (ValueError, cls.DoesNotExist, OperationalError):
             return False
 
     @classmethod
@@ -67,9 +67,13 @@ class CustomUser(models.Model):
         """Returns custom user instance by user_id."""
         try:
             return cls.objects.get(id=user_id)
-        except (cls.DoesNotExist, OperationalError):
+        except (ValueError, cls.DoesNotExist, OperationalError):
             return None
 
     @classmethod
     def get_all_users(cls):
-        return cls.objects.all()
+        """Return all users"""
+        try:
+            return cls.objects.all()
+        except OperationalError:
+            return []

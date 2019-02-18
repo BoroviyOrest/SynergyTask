@@ -9,8 +9,8 @@ class Group(models.Model):
     description = models.CharField(max_length=256, default='', blank=True)
 
     def __str__(self):
-        """Method that returns route instance as string."""
-        return f'Group with id {self.id} and name {self.name}'
+        """Method that returns group instance as string."""
+        return f'Group {self.id} with name {self.name}'
 
     def to_dict(self):
         """Method that returns dict with object's attributes."""
@@ -56,7 +56,7 @@ class Group(models.Model):
             group = cls.objects.get(id=group_id)
             group.delete()
             return True
-        except (cls.DoesNotExist, OperationalError) as err:
+        except (ValueError, cls.DoesNotExist, OperationalError):
             return False
 
     @classmethod
@@ -64,9 +64,13 @@ class Group(models.Model):
         """Returns group instance by group_id."""
         try:
             return cls.objects.get(id=group_id)
-        except (cls.DoesNotExist, OperationalError):
+        except (ValueError, cls.DoesNotExist, OperationalError):
             return None
 
     @classmethod
     def get_all_groups(cls):
-        return cls.objects.all()
+        """Return all groups"""
+        try:
+            return cls.objects.all()
+        except (cls.DoesNotExist, OperationalError):
+            return []
