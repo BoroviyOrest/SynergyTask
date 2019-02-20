@@ -9,7 +9,7 @@ class CustomUser(models.Model):
     """Model for CustomUser entity."""
     nickname = models.CharField(max_length=20)
     created = models.DateTimeField(auto_now_add=True)
-    group = models.ForeignKey(Group, on_delete=models.PROTECT, null=True, related_name='groups')
+    group = models.ForeignKey(Group, on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         """Method that returns custom_user instance as string."""
@@ -20,7 +20,8 @@ class CustomUser(models.Model):
         return {
             'user_id': self.id,
             'nickname': self.nickname,
-            'group_id': self.group_id
+            'group_id': self.group_id,
+            'group_name': self.group.name if self.group else None
         }
 
     @classmethod
@@ -42,8 +43,7 @@ class CustomUser(models.Model):
             if nickname:
                 self.nickname = nickname
 
-            if group:
-                self.group = group
+            self.group = group
 
             try:
                 self.save()

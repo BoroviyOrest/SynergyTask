@@ -56,7 +56,7 @@ class Group(models.Model):
             group = cls.objects.get(id=group_id)
             group.delete()
             return True
-        except (ValueError, cls.DoesNotExist, OperationalError):
+        except (ValueError, cls.DoesNotExist, models.ProtectedError, OperationalError):
             return False
 
     @classmethod
