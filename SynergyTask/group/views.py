@@ -15,9 +15,6 @@ class GroupView(View):
         groups = Group.get_all_groups()
         data = [group.to_dict() for group in groups]
 
-        if not data:
-            return HttpResponse('There are no groups yet', status=400)
-
         return JsonResponse(data, status=200, safe=False)
 
     def post(self, request, group_id):

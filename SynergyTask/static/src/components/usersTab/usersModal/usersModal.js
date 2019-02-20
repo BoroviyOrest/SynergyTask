@@ -147,9 +147,7 @@ class UserModal extends React.Component {
                             name="group"
                             className={classes.selectEmpty}
                         >
-                            <MenuItem value={null}>
-                                <em>None</em>
-                            </MenuItem>
+                            <MenuItem value={null}/>
                             {this.state.groupsData.map(group => (
                                 <MenuItem value={group.group_id}>{group.name}</MenuItem>
                             ))}

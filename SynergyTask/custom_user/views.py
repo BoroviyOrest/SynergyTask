@@ -16,9 +16,6 @@ class CustomUserView(View):
         users = CustomUser.get_all_users()
         data = [user.to_dict() for user in users]
 
-        if not data:
-            return HttpResponse('There are no users yet', status=400)
-
         return JsonResponse(data, status=200, safe=False)
 
     def post(self, request, user_id):
